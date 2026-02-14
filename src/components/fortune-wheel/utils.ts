@@ -23,7 +23,7 @@ export const drawWheel = (
     rotation: number,
     config: WheelConfig = DEFAULT_WHEEL_CONFIG,
     isItemUsed?: (itemId: number) => boolean,
-    categoryIndices?: Map<number, number> // item.id -> индекс в категории (1-based)
+    categoryIndices?: Map<number, number> 
 ): void => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -45,7 +45,6 @@ export const drawWheel = (
         let color = config.segmentColors[colorIndex];
         let borderColor = config.borderColors[colorIndex];
 
-        // Если задание уже использовано - делаем его бледнее
         const used = isItemUsed && isItemUsed(item.id);
         if (used) {
             // Добавляем прозрачность для использованных заданий
@@ -82,7 +81,7 @@ export const drawWheel = (
 
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.font = 'bold 24px Arial'; // Увеличиваем размер для цифр
+        ctx.font = 'bold 24px Arial'; 
 
         // Получаем индекс в категории
         let displayNumber = (index + 1).toString(); // fallback
@@ -214,7 +213,6 @@ export const spinWheel = (
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
 
-        // Easing функция
         const easeOut = 1 - Math.pow(1 - progress, 3);
         const currentRotation = startRotation + distance * easeOut;
 
@@ -223,10 +221,9 @@ export const spinWheel = (
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else {
-            // Небольшая задержка перед вызовом колбека
             setTimeout(() => {
                 onSpinComplete(selectedItem);
-            }, 100); // 100мс задержка для плавности
+            }, 100);
         }
     };
 
@@ -244,7 +241,6 @@ export const getCurrentItemUnderPointer = (
     const halfSliceAngle = sliceAngle / 2;
     const pointerAngle = -Math.PI / 2;
 
-    // Нормализуем rotation
     const normalizedRotation = ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
 
     // Находим ближайший элемент

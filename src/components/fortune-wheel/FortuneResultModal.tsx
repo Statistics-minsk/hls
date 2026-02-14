@@ -48,7 +48,7 @@ export const WheelResultModal = ({
                 color="blue.600"
                 minW="56px"
               >
-                #{itemIndex !== undefined && itemIndex >= 0 ? itemIndex + 1 : '?'}
+                №{itemIndex !== undefined && itemIndex >= 0 ? itemIndex + 1 : '?'}
               </Text>
               <Text fontSize="lg">{item.title}</Text>
             </Flex>

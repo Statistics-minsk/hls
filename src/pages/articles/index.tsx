@@ -16,10 +16,9 @@ import {
     Text,
     useColorModeValue,
     useDisclosure,
-    useMediaQuery,
     VStack
 } from "@chakra-ui/react";
-import {  useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router";
 
 import { AppRoute } from "~/consts/consts";
@@ -31,8 +30,6 @@ export const Articles = () => {
     const articleRef = useRef<HTMLDivElement>(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef<HTMLButtonElement>(null);
-    
-    const [isDesktop] = useMediaQuery("(min-width: 1200.9px)");
 
     const sidebarBg = useColorModeValue("gray.50", "gray.800");
     const articleBg = useColorModeValue("white", "gray.900");
@@ -48,30 +45,10 @@ export const Articles = () => {
             return acc;
         }, {});
 
-    useEffect(() => {
-        if (articleRef.current && isDesktop) {
-            articleRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    }, [selectedArticle, isDesktop]);
 
     const handleArticleSelect = (article: Article) => {
-        const prevArticleId = selectedArticle?.id;
         setSelectedArticle(article);
-        onClose(); 
-        
-        if (isDesktop && prevArticleId !== undefined) {
-            setTimeout(() => {
-                if (articleRef.current) {
-                    articleRef.current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            }, 50);
-        }
+        onClose();
     };
 
     const getCategoryTitle = (category: string): string => {
@@ -205,7 +182,7 @@ export const Articles = () => {
                     Всего статей:
                 </Text>
                 <Text fontSize="sm" color="gray.600">
-                    {ARTICLES_DATA.length} материалов, основанных на исследованиях
+                    {ARTICLES_DATA.length}, основанных на исследованиях
                 </Text>
             </Box>
         </VStack>
@@ -304,7 +281,22 @@ export const Articles = () => {
                                         <Flex align="center" gap={4} flexWrap="wrap">
                                             {selectedArticle.source && (
                                                 <Text fontSize="sm" color="gray.500">
-                                                    Источник: {selectedArticle.source}
+                                                    Источник: {selectedArticle.sourceLink ? (
+                                                        <Link
+                                                            to={selectedArticle.sourceLink}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            style={{
+                                                                color: 'inherit',
+                                                                textDecoration: 'underline',
+                                                                textDecorationColor: 'rgba(0, 0, 0, 0.2)'
+                                                            }}
+                                                            onMouseEnter={(e) => e.currentTarget.style.textDecorationColor = 'blue'}
+                                                            onMouseLeave={(e) => e.currentTarget.style.textDecorationColor = 'rgba(0, 0, 0, 0.2)'}
+                                                        >
+                                                            {selectedArticle.source}
+                                                        </Link>
+                                                    ) : selectedArticle.source}
                                                 </Text>
                                             )}
                                             {selectedArticle.country && (
@@ -358,8 +350,8 @@ export const Articles = () => {
                 textAlign="center"
             >
                 <Text fontSize="sm" color="gray.600">
-                    🔬 Все статьи обновляются по мере публикации новых исследований.
-                    Последнее обновление: {new Date().getFullYear()} год
+                    🔬 Каждая статья имеет ссылки на первоисточник
+                    {/* Последнее обновление: {new Date().getFullYear()} год */}
                 </Text>
                 <Text fontSize="xs" color="gray.500" mt={2}>
                     Информация носит ознакомительный характер

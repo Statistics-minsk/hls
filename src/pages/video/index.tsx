@@ -23,7 +23,7 @@ import {
   useColorModeValue,
   VStack
 } from "@chakra-ui/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { SyntheticEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 
 import { AppRoute } from "~/consts/consts";
@@ -46,12 +46,10 @@ export const VideoPage = () => {
   const [videoDurations, setVideoDurations] = useState<Record<number, number>>({});
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
 
-  // Состояния для фильтрации и поиска
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Получаем уникальные типы из данных
   const videoTypes = useMemo(() => {
     const types = Array.from(new Set(VIDEOS_DATA.map(video => video.type)));
     return types.sort();
@@ -59,8 +57,7 @@ export const VideoPage = () => {
 
   const aspectRatio = 3 / 4;
 
-  // Получаем длительность видео при загрузке метаданных
-  const handleLoadedMetadata = (videoId: number, event: React.SyntheticEvent<HTMLVideoElement>) => {
+  const handleLoadedMetadata = (videoId: number, event: SyntheticEvent<HTMLVideoElement>) => {
     const video = event.currentTarget;
     if (video.duration && video.duration !== Infinity) {
       setVideoDurations(prev => ({
@@ -70,7 +67,6 @@ export const VideoPage = () => {
     }
   };
 
-  // Получаем конечное время для обрезки видео
   const getEndTime = (video: Video) => {
     if (!video.trimFromEnd) return null;
 
@@ -81,7 +77,6 @@ export const VideoPage = () => {
     return null;
   };
 
-  // Обработчик времени воспроизведения
   const handleTimeUpdate = (videoId: number) => {
     const video = videoRefs.current[videoId];
     const videoData = VIDEOS_DATA.find(v => v.id === videoId);
@@ -97,7 +92,6 @@ export const VideoPage = () => {
   };
 
   const handlePlay = (videoId: number) => {
-    // Останавливаем все другие видео
     Object.entries(videoRefs.current).forEach(([id, video]) => {
       const idNum = parseInt(id);
       if (idNum !== videoId && video) {
@@ -121,14 +115,11 @@ export const VideoPage = () => {
     }
   };
 
-  // Фильтрация видео
   const filteredVideos = useMemo(() => VIDEOS_DATA.filter(video => {
-    // Фильтр по типу
     if (selectedType !== "all" && video.type !== selectedType) {
       return false;
     }
 
-    // Фильтр по поиску
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       return (
@@ -148,12 +139,10 @@ export const VideoPage = () => {
     return filteredVideos.slice(startIndex, startIndex + videosPerPage);
   }, [filteredVideos, currentPage, videosPerPage]);
 
-  // Сброс пагинации при изменении фильтров
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, selectedType]);
 
-  // Обработчик изменения размера окна
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768 && currentPage > Math.ceil(filteredVideos.length / VIDEOS_PER_PAGE_MOBILE)) {
@@ -231,7 +220,6 @@ export const VideoPage = () => {
         </Flex>
       </Box>
 
-      {/* Сетка видео */}
       {paginatedVideos.length > 0 ? (
         <>
           <SimpleGrid
@@ -400,6 +388,8 @@ export const VideoPage = () => {
         borderLeftWidth="4px"
         borderLeftColor="blue.400"
         color='blue.800'
+        pos='relative'
+        zIndex={1}
       >
         <Heading mb={6}>Правовая информация</Heading>
         <Box>

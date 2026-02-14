@@ -46,12 +46,6 @@ export const VIDEOS_DATA: Video[] = [
         src: 'video/5.mp4'
     },
     {
-        id: 6,
-        title: "#стереотипы",
-        type: 'healthy-food',
-        src: 'video/6.mp4'
-    },
-    {
         id: 7,
         title: "#массаж_лица",
         type: 'massage',

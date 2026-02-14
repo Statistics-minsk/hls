@@ -112,14 +112,12 @@ export const StandardTestView: React.FC<StandardTestViewProps> = ({ test, onComp
     const [showResult, setShowResult] = useState<boolean>(false);
     const [totalScore, setTotalScore] = useState<number>(0);
 
-    // Вычисляем прогресс
     const progress = useMemo(() => {
         const totalQuestions = test.questions?.length || 0;
         const answeredCount = Object.keys(answers).length;
         return totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0;
     }, [answers, test.questions?.length]);
 
-    // Проверяем, все ли вопросы отвечены
     const allQuestionsAnswered = useMemo(() => {
         const totalQuestions = test.questions?.length || 0;
         return Object.keys(answers).length === totalQuestions;

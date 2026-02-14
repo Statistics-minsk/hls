@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router';
 type VerticalCard = {
     id: number;
     title: string;
+    shortTitle: string;
     desc: string;
     src: string;
     route: string

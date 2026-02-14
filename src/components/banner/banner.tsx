@@ -11,7 +11,7 @@ type BannerProps = {
   item: Item
 }
 export const Banner = ({ item }: BannerProps) => {
-  const isOdd = item.id % 2 !== 0;
+  const isOdd = item.id % 2 === 0;
   return (
 
     <Box h='300px' pos='relative' overflow='hidden'>

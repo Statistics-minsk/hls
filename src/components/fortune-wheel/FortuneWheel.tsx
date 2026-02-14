@@ -36,7 +36,7 @@ import {
 interface FortuneWheelProps {
   items: WheelItemI[];
   config?: Partial<WheelConfig>;
-  wheelId: string; // 'health', 'exercise', 'recipes'
+  wheelId: string;
 }
 
 export const FortuneWheelComponent = ({
@@ -68,20 +68,19 @@ export const FortuneWheelComponent = ({
 
   const getCategoryIndices = (): Map<number, number> => {
     const indicesMap = new Map<number, number>();
-    
-    // задания текущей категории по ID
+
     const sortedItems = [...filteredItems].sort((a, b) => a.id - b.id);
-    
+
     sortedItems.forEach((item, index) => {
       indicesMap.set(item.id, index + 1);
     });
-    
+
     return indicesMap;
   };
 
   const getItemCategoryIndex = (item: WheelItemI | null): number => {
     if (!item) return -1;
-    
+
     const categoryItems = items.filter(i => i.category === item.category);
 
     const sortedItems = [...categoryItems].sort((a, b) => a.id - b.id);
@@ -94,7 +93,7 @@ export const FortuneWheelComponent = ({
     const history = getWheelHistory(wheelId);
     const usedItems = history.usedItemIds
       .map(id => items.find(item => item.id === id))
-      .filter((item): item is WheelItemI => 
+      .filter((item): item is WheelItemI =>
         item !== undefined && item.category === wheelId
       )
       .reverse();
@@ -105,7 +104,7 @@ export const FortuneWheelComponent = ({
   useEffect(() => {
     loadHistoryItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -115,14 +114,14 @@ export const FortuneWheelComponent = ({
 
     drawWheel(
       canvas,
-      filteredItems, 
+      filteredItems,
       rotation,
       wheelConfig,
       (itemId) => isItemUsed(wheelId, itemId),
-      categoryIndices 
+      categoryIndices
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rotation, items, wheelConfig, wheelId]); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rotation, items, wheelConfig, wheelId]);
 
   const spinWheelAnimation = (
     selectedItem: WheelItemI,
@@ -167,10 +166,6 @@ export const FortuneWheelComponent = ({
         const itemIndex = getItemCategoryIndex(selectedItem);
         setSelectedItemIndex(itemIndex);
         setSelectedModalItem(selectedItem);
-
-        setTimeout(() => {
-          setIsModalOpen(true);
-        }, 500);
       }
     };
     requestAnimationFrame(animate);
@@ -187,29 +182,12 @@ export const FortuneWheelComponent = ({
     spinWheelAnimation(selectedItem);
   };
 
-  const handleRandomItem = () => {
-    const randomItem = getRandomUnusedItem(wheelId, filteredItems);
-
-    addUsedItem(wheelId, randomItem.id);
-
-    const newStats = getWheelStats(wheelId, filteredItems);
-    setStats(newStats);
-    
-    loadHistoryItems();
-
-    setResult(randomItem);
-    const itemIndex = getItemCategoryIndex(randomItem);
-    setSelectedItemIndex(itemIndex);
-    setSelectedModalItem(randomItem);
-    setIsModalOpen(true);
-  };
-
   const handleResetHistory = () => {
     resetWheelHistory(wheelId);
 
     const newStats = getWheelStats(wheelId, filteredItems);
     setStats(newStats);
-    
+
     setResult(null);
     setHistoryItems([]);
 
@@ -224,7 +202,7 @@ export const FortuneWheelComponent = ({
 
   const openResultModal = (item: WheelItemI) => {
     const itemIndex = getItemCategoryIndex(item);
-    
+
     setSelectedModalItem(item);
     setSelectedItemIndex(itemIndex);
     setIsModalOpen(true);
@@ -240,14 +218,11 @@ export const FortuneWheelComponent = ({
     <>
       <Container maxW="6xl" py={8} px={0}>
 
-        <VStack spacing={8} align="center">
-          <Heading color="blue.700" textAlign="center">
-            🎡 Колесо Фортуны - {wheelId === 'health' ? 'ЗОЖ' :
-              wheelId === 'exercise' ? 'Упражнения' :
-                'Рецепты ПП'}
+        <VStack spacing={1} align="center">
+          <Heading color="blue.700" textAlign="center" mb={5}>
+            🎡 Колесо Фортуны - {wheelId === 'health' ? 'ЗОЖ' : wheelId === 'exercise' ? 'Упражнения' : 'Рецепты ПП'}
           </Heading>
 
-          {/* Прогресс выполнения */}
           <Box w="100%" maxW="2xl">
             <Flex justify="space-between" mb={2}>
               <Text fontWeight="bold" color="gray.700">
@@ -282,7 +257,6 @@ export const FortuneWheelComponent = ({
             ) : null}
           </Box>
 
-          {/* Колесо */}
           <Box position="relative">
             <canvas
               ref={canvasRef}
@@ -297,12 +271,12 @@ export const FortuneWheelComponent = ({
             />
           </Box>
 
-          {/* Текущий результат (если есть) */}
           {result && (
             <Box
               w="100%"
               maxW="2xl"
               bg="green.50"
+              mb={6}
               p={6}
               borderRadius="lg"
               borderWidth={2}
@@ -315,7 +289,7 @@ export const FortuneWheelComponent = ({
                 transition: 'all 0.3s'
               }}
             >
-              <Flex align="center" justify="center" mb={3} flexWrap={{base: 'wrap', xs: 'nowrap'}}>
+              <Flex align="center" justify="center" mb={3} flexWrap={{ base: 'wrap', xs: 'nowrap' }}>
                 <Badge colorScheme="green" fontSize="md" mr={3}>
                   🔥 Текущее
                 </Badge>
@@ -324,7 +298,7 @@ export const FortuneWheelComponent = ({
                 </Heading>
               </Flex>
               <Text fontSize="xl" fontWeight="bold" color="green.800">
-                Задание #{getItemCategoryIndex(result) + 1}: {result.title}
+                Задание №{getItemCategoryIndex(result) + 1}: {result.title}
               </Text>
               <Text mt={3} color="gray.600" fontSize="sm">
                 Нажмите, чтобы посмотреть подробности
@@ -332,8 +306,7 @@ export const FortuneWheelComponent = ({
             </Box>
           )}
 
-          {/* Кнопки управления */}
-          <Flex gap={4} wrap="wrap" justify="center">
+          <Flex gap={4} wrap="wrap" justify="center" mb={3}>
             <Button
               colorScheme="blue"
               size="lg"
@@ -347,19 +320,9 @@ export const FortuneWheelComponent = ({
             </Button>
 
             <Button
-              colorScheme="blue"
-              size="lg"
-              variant="outline"
-              onClick={handleRandomItem}
-              isDisabled={isSpinning}
-            >
-              Случайная задача
-            </Button>
-
-            <Button
               colorScheme="orange"
               size="lg"
-              variant="ghost"
+              variant="outline"
               onClick={handleResetHistory}
               isDisabled={isSpinning}
             >
@@ -367,7 +330,6 @@ export const FortuneWheelComponent = ({
             </Button>
           </Flex>
 
-          {/* История выпавших заданий */}
           {historyItems.length > 0 && (
             <Box w="100%" maxW="2xl" mt={8}>
               <Heading size="md" mb={4} color="gray.700">
@@ -390,7 +352,7 @@ export const FortuneWheelComponent = ({
                       🔥 Текущее
                     </Badge>
                     <Badge colorScheme="blue" mr={3}>
-                      #{getItemCategoryIndex(result) + 1}
+                      №{getItemCategoryIndex(result) + 1}
                     </Badge>
                     <Text fontWeight="bold" color="gray.700" flex={1}>
                       {result.title}
@@ -398,7 +360,6 @@ export const FortuneWheelComponent = ({
                   </Flex>
                 )}
 
-                {/* Остальная история */}
                 {historyItems.map((item, index) => {
                   const itemIndex = getItemCategoryIndex(item);
                   return (
@@ -419,7 +380,7 @@ export const FortuneWheelComponent = ({
                         mr={3}
                         opacity={0.7}
                       >
-                        #{historyItems.length - index}
+                        {historyItems.length - index}
                       </Badge>
                       <Badge
                         colorScheme="blue"
@@ -440,7 +401,6 @@ export const FortuneWheelComponent = ({
                 })}
               </VStack>
 
-              {/* Статистика внизу истории */}
               <Flex
                 justify="space-between"
                 mt={4}
@@ -458,7 +418,7 @@ export const FortuneWheelComponent = ({
             </Box>
           )}
 
-          {/* Сообщение если история пуста */}
+     
           {historyItems.length === 0 && !result && (
             <Box w="100%" maxW="2xl" mt={8} p={6} bg="gray.50" borderRadius="lg" textAlign="center">
               <Text color="gray.600" mb={3}>
@@ -472,7 +432,6 @@ export const FortuneWheelComponent = ({
         </VStack>
       </Container>
 
-      {/* Модальное окно для просмотра задания */}
       <WheelResultModal
         isOpen={isModalOpen}
         onClose={closeModal}
