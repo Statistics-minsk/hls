@@ -1,13 +1,14 @@
-import { SearchIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, SearchIcon } from '@chakra-ui/icons';
 import {
     Box,
     Button,
+    Collapse,
     Container,
     Flex,
     Grid,
     GridItem,
     Heading,
-    HStack,
+    Icon,
     Input,
     InputGroup,
     InputLeftElement,
@@ -15,12 +16,12 @@ import {
     Tag,
     TagLabel,
     Text,
+    useDisclosure,
     VStack
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Link } from 'react-router';
 
-import { AppRoute, TEST_DATA } from '~/consts/consts';
+import { TEST_DATA } from '~/consts/consts';
 
 import { TestData } from './test.types';
 import { TestCard } from './TestCard';
@@ -31,6 +32,7 @@ export const TestsPage = () => {
     const [categoryFilter, setCategoryFilter] = useState<string>('all');
     const [selectedTest, setSelectedTest] = useState<TestData | null>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const { isOpen, onToggle } = useDisclosure();
 
     // Категории для фильтрации
     const categories = [
@@ -63,12 +65,8 @@ export const TestsPage = () => {
     };
 
     return (
-        <Container maxW="7xl" py={{ base: 2, sm: 8 }} zIndex={1} px={{ base: 0, xs: 4 }} >
-            {/* Заголовок */}
+        <Container maxW="7xl" py={{ base: 2, sm: 8 }} zIndex={1} px={{ base: 1, xs: 4 }} >
             <VStack spacing={6} align="stretch" mb={10}>
-                <Button as={Link} to={AppRoute.Index} mb={6} colorScheme="blue" variant="outline" mr='auto' ml={{ base: 2, xs: 0 }}>
-                    ← На главную
-                </Button>
                 <Box>
                     <Heading mb={4} color="blue.800" textAlign='center'>
                         📊 Психологические тесты
@@ -77,28 +75,22 @@ export const TestsPage = () => {
                         <Text mb={4} fontWeight={600} fontSize={20} textAlign='center' pl={3}>
                             Диагностические инструменты для самопознания и рефлексии.
                         </Text>
-                        {/* Инструкция */}
-                        <Box mt={12} p={6} bg="gray.50" borderRadius="lg">
-                            <Heading size="md" mb={4} color="gray.700">
-                                💡 Как пользоваться платформой?
-                            </Heading>
-                            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
-                                <InstructionStep
-                                    number="1"
-                                    title="Выберите тест"
-                                    desc="Используйте поиск и фильтры для навигации"
-                                />
-                                <InstructionStep
-                                    number="2"
-                                    title="Пройти онлайн"
-                                    desc="Отвечайте на вопросы или выбирайте изображения"
-                                />
-                                <InstructionStep
-                                    number="3"
-                                    title="Получите результат"
-                                    desc="Получите персонализированную интерпретацию"
-                                />
-                            </SimpleGrid>
+                        <Box mt={8}>
+                            <Flex align="center" onClick={onToggle} cursor="pointer">
+                                <Box display='flex' alignItems='center' bg="rgba(255,255,255,0.2)" backdropFilter="blur(4px)" px={2} py={1} borderRadius="md">
+                                    <Heading size="md" color="gray.700" mr={2}>💡 Как пользоваться {isOpen ? ':' : '?'}</Heading>
+                                    <Icon as={isOpen ? ChevronUpIcon : ChevronDownIcon} boxSize={5} />
+                                </Box>
+                            </Flex>
+                            <Collapse in={isOpen} animateOpacity>
+                                <Box bg="blue.50" p={6} borderRadius="lg" borderLeftWidth={4} borderLeftColor="blue.400" mt={2}>
+                                    <VStack align="stretch" spacing={3}>
+                                        <Text>1. <b>Выберите тест</b> – используйте поиск и фильтры для навигации</Text>
+                                        <Text>2. <b>Пройти онлайн</b> – отвечайте на вопросы или выбирайте изображения</Text>
+                                        <Text>3. <b>Получите результат</b> – получите персонализированную интерпретацию</Text>
+                                    </VStack>
+                                </Box>
+                            </Collapse>
                         </Box>
                     </Box>
                 </Box>
@@ -197,34 +189,3 @@ export const TestsPage = () => {
     );
 };
 
-
-// Компонент шага инструкции
-interface InstructionStepProps {
-    number: string;
-    title: string;
-    desc: string;
-}
-
-const InstructionStep: React.FC<InstructionStepProps> = ({ number, title, desc }) => (
-    <Box p={4} bg="white" borderRadius="md">
-        <HStack mb={3}>
-            <Box
-                w="30px"
-                h="30px"
-                bg="blue.500"
-                color="white"
-                borderRadius="full"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                fontWeight="bold"
-            >
-                {number}
-            </Box>
-            <Text fontWeight="bold">{title}</Text>
-        </HStack>
-        <Text color="gray.600" fontSize="sm">
-            {desc}
-        </Text>
-    </Box>
-);

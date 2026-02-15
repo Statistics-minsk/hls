@@ -23,7 +23,8 @@ export const NavMenu = () => {
                     size={{ base: 'sm', md: 'md' }}
                     color={isMainPage ? 'white' : 'blue.800'}
                     _hover={{
-                        color: isMainPage ? 'blue.200' : 'blue.600'
+                        color: isMainPage ? 'blue.200' : 'blue.600',
+                        bgColor: 'transparent'
                     }}
                     fontWeight={location.pathname === item.route ? 800 : 600}
                     borderBottom={location.pathname === item.route ? '1px solid' : 'none'}

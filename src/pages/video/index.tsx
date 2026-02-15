@@ -24,9 +24,6 @@ import {
   VStack
 } from "@chakra-ui/react";
 import { SyntheticEvent, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router";
-
-import { AppRoute } from "~/consts/consts";
 
 import { Video, VIDEOS_DATA } from "./video-data";
 
@@ -156,17 +153,6 @@ export const VideoPage = () => {
 
   return (
     <Container maxW="7xl" py={8} px={{ base: 0, xs: 4 }}>
-      <Button
-        as={Link}
-        to={AppRoute.Index}
-        mb={6}
-        colorScheme="blue"
-        variant="outline"
-        leftIcon={<Text>←</Text>}
-        ml={{ base: 2, xs: 0 }}
-      >
-        На главную
-      </Button>
 
       <VStack spacing={4} mb={10} textAlign="center">
         <Heading color="blue.800" size={{ base: "xl", md: "2xl" }}>

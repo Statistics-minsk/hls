@@ -21,8 +21,6 @@ import {
 import { useRef, useState } from "react";
 import { Link } from "react-router";
 
-import { AppRoute } from "~/consts/consts";
-
 import { Article, ARTICLES_DATA } from "./articles-data";
 
 export const Articles = () => {
@@ -111,7 +109,6 @@ export const Articles = () => {
         );
     };
 
-    // Компонент сайдбара для повторного использования
     const SidebarContent = () => (
         <VStack align="stretch" spacing={3}>
             <Button
@@ -189,10 +186,7 @@ export const Articles = () => {
     );
 
     return (
-        <Container maxW="7xl" py={8} pos='relative' zIndex={1} px={{ base: 0, xs: 4 }}>
-            <Button as={Link} to={AppRoute.Index} mb={6} colorScheme="blue" variant="outline" ml={{ base: 2, xs: 0 }}>
-                ← На главную
-            </Button>
+        <Container maxW="7xl" py={8} pos='relative' zIndex={1} px={{ base: 1, xs: 4 }}>
             <Box textAlign="center">
                 <Heading color="blue.700" mb={4}>
                     📊 Научные исследования о ЗОЖ

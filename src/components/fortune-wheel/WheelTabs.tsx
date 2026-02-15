@@ -6,7 +6,7 @@ import { FortuneWheelComponent } from './FortuneWheel';
 
 export const WheelTabs = () => (
     <Tabs variant="enclosed" colorScheme="blue" isLazy>
-      <TabList>
+      <TabList pl={6}>
         <Tab fontWeight="bold" px={2}>🎯 ЗОЖ Задачи</Tab>
         <Tab fontWeight="bold" px={2}>🥗 Рецепты ПП</Tab>
       </TabList>
