@@ -27,13 +27,13 @@ export const Banner = ({ item }: BannerProps) => {
         objectPosition='center 5%'
       />
       <Container
-        maxW='5xl'
+        maxW='6xl'
         h='100%'
         pos='relative'
         display='flex'
         alignItems={{ base: 'center', md: isOdd ? 'flex-start' : 'flex-end' }}
         justifyContent={isOdd ? 'flex-end' : 'flex-start'}
-        px={{ base: 3, md: 8 }}
+        px={3}
         py={10}
       >
         <Box
