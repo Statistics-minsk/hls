@@ -84,7 +84,7 @@ export const TestsPage = () => {
                             </Flex>
                             <Collapse in={isOpen} animateOpacity>
                                 <Box bg="blue.50" p={6} borderRadius="lg" borderLeftWidth={4} borderLeftColor="blue.400" mt={2}>
-                                    <VStack align="stretch" spacing={3}>
+                                    <VStack align="stretch" spacing={3} color='gray.800' fontSize={16}>
                                         <Text>1. <b>Выберите тест</b> – используйте поиск и фильтры для навигации</Text>
                                         <Text>2. <b>Пройти онлайн</b> – отвечайте на вопросы или выбирайте изображения</Text>
                                         <Text>3. <b>Получите результат</b> – получите персонализированную интерпретацию</Text>
