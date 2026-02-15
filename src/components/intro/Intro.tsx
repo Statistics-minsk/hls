@@ -8,7 +8,7 @@ export const Intro = () => (
         overflow='hidden'
     >
         <Image
-            src='img/stat.png'
+            src='img/stat.webp'
             position='absolute'
             left={0}
             top={0}

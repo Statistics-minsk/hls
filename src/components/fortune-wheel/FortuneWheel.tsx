@@ -14,6 +14,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
+import confetti from 'canvas-confetti';
 import { useEffect, useRef, useState } from 'react';
 
 import { WheelItemI } from '~/consts/consts';
@@ -57,6 +58,7 @@ export const FortuneWheelComponent = ({
   const [historyItems, setHistoryItems] = useState<WheelItemI[]>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const toast = useToast();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wheelConfig: WheelConfig = {
@@ -123,6 +125,32 @@ export const FortuneWheelComponent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rotation, items, wheelConfig, wheelId]);
 
+  useEffect(() => {
+    audioRef.current = new Audio('sounds/ta-da.mp3');
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const playWinEffect = () => {
+    // Звук
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(e => console.log('Аудио не воспроизвелось:', e));
+    }
+    // Конфетти
+    confetti({
+      particleCount: 120,
+      spread: 80,
+      origin: { y: 0.6 },
+      startVelocity: 25,
+      colors: ['#26ccff', '#a25afd', '#ff5e7d', '#ffac46']
+    });
+  };
+
   const spinWheelAnimation = (
     selectedItem: WheelItemI,
     duration: number = 3000
@@ -166,6 +194,7 @@ export const FortuneWheelComponent = ({
         const itemIndex = getItemCategoryIndex(selectedItem);
         setSelectedItemIndex(itemIndex);
         setSelectedModalItem(selectedItem);
+        playWinEffect(); 
       }
     };
     requestAnimationFrame(animate);
@@ -418,7 +447,7 @@ export const FortuneWheelComponent = ({
             </Box>
           )}
 
-     
+
           {historyItems.length === 0 && !result && (
             <Box w="100%" maxW="2xl" mt={8} p={6} bg="gray.50" borderRadius="lg" textAlign="center">
               <Text color="gray.600" mb={3}>
