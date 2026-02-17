@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex } from '@chakra-ui/react';
 
 export const Footer = () => (
     <Box
@@ -9,8 +9,8 @@ export const Footer = () => (
         sx={{
             boxShadow: {
                 base: '0 -3px 6px rgb(82 121 251 / 40%)',
-                sm: '0 -5px 12px rgb(187 202 251 / 40%)'
-            }
+                sm: '0 -5px 12px rgb(187 202 251 / 40%)',
+            },
         }}
     >
         <Flex
@@ -23,8 +23,9 @@ export const Footer = () => (
             fontWeight={500}
             opacity={0.8}
         >
-             Контент носит развлекательный характер. Создано с помощью ИИ <br/>
-            © {new Date().getFullYear()}. Все права защищены.
+            Контент носит развлекательный характер.
+            <br />
+            Создано с помощью ИИ. {new Date().getFullYear()}
         </Flex>
     </Box>
-)
+);

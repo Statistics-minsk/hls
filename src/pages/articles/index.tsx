@@ -1,4 +1,4 @@
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from '@chakra-ui/icons';
 import {
     Badge,
     Box,
@@ -16,12 +16,12 @@ import {
     Text,
     useColorModeValue,
     useDisclosure,
-    VStack
-} from "@chakra-ui/react";
-import { useRef, useState } from "react";
-import { Link } from "react-router";
+    VStack,
+} from '@chakra-ui/react';
+import { useRef, useState } from 'react';
+import { Link } from 'react-router';
 
-import { Article, ARTICLES_DATA } from "./articles-data";
+import { Article, ARTICLES_DATA } from './articles-data';
 
 export const Articles = () => {
     const [selectedArticle, setSelectedArticle] = useState<Article | null>(ARTICLES_DATA[0]);
@@ -29,20 +29,21 @@ export const Articles = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef<HTMLButtonElement>(null);
 
-    const sidebarBg = useColorModeValue("gray.50", "gray.800");
-    const articleBg = useColorModeValue("white", "gray.900");
-    const buttonHoverBg = useColorModeValue("blue.50", "blue.900");
-    const activeButtonBg = useColorModeValue("blue.100", "blue.800");
+    const sidebarBg = useColorModeValue('gray.50', 'gray.800');
+    const articleBg = useColorModeValue('white', 'gray.900');
+    const buttonHoverBg = useColorModeValue('blue.50', 'blue.900');
+    const activeButtonBg = useColorModeValue('blue.100', 'blue.800');
 
-    const categories = ARTICLES_DATA.filter(article => article.id !== 0)
-        .reduce((acc: Record<string, Article[]>, article) => {
+    const categories = ARTICLES_DATA.filter((article) => article.id !== 0).reduce(
+        (acc: Record<string, Article[]>, article) => {
             if (!acc[article.category]) {
                 acc[article.category] = [];
             }
             acc[article.category].push(article);
             return acc;
-        }, {});
-
+        },
+        {},
+    );
 
     const handleArticleSelect = (article: Article) => {
         setSelectedArticle(article);
@@ -51,33 +52,46 @@ export const Articles = () => {
 
     const getCategoryTitle = (category: string): string => {
         const titles: Record<string, string> = {
-            sleep: "Сон и циркадные ритмы",
-            diet: "Питание и диетология",
-            activity: "Фитнес и активность",
-            stress: "Ментальное здоровье",
-            water: "Гидратация",
-            gut: "Микробиом",
-            vitaminD: "Витамины",
-            belarus: "Белорусские исследования",
-            intro: "Введение"
+            sleep: 'Сон и циркадные ритмы',
+            nutrition: 'Питание и диетология',
+            activity: 'Фитнес и активность',
+            stress: 'Ментальное здоровье',
+            mental: 'Ментальное здоровье',
+            water: 'Гидратация',
+            gut: 'Микробиом',
+            vitaminD: 'Витамины',
+            belarus: 'Белорусские исследования',
+            intro: 'Введение',
+            health: 'Здоровье',
+            lifestyle: 'Образ жизни',
+            addiction: 'Курение и зависимость',
         };
         return titles[category] || category;
     };
 
     const renderParagraph = (paragraph: string, index: number) => {
-        if (paragraph.trim() === "") {
+        if (paragraph.trim() === '') {
             return <Divider key={index} my={2} />;
         }
 
-        if (paragraph.startsWith("- ") || paragraph.startsWith("✅ ") || paragraph.startsWith("❌ ")) {
-            const bullet = paragraph.startsWith("- ") ? "•" :
-                paragraph.startsWith("✅ ") ? "✅" : "❌";
+        if (
+            paragraph.startsWith('- ') ||
+            paragraph.startsWith('✅ ') ||
+            paragraph.startsWith('❌ ')
+        ) {
+            const bullet = paragraph.startsWith('- ')
+                ? '•'
+                : paragraph.startsWith('✅ ')
+                  ? '✅'
+                  : '❌';
             const text = paragraph.substring(2);
 
             return (
-                <Flex key={index} align="flex-start" gap={2}>
-                    <Text fontSize="lg" mt={0.5}>{bullet}</Text>
-                    <Text fontSize="md" color="gray.700">
+                <Flex key={index} align='flex-start' gap={2}>
+                    <Text fontSize='lg' mt={0.5}>
+                        {bullet}
+                    </Text>
+                    <Text fontSize='md' color='gray.700'>
                         {text}
                     </Text>
                 </Flex>
@@ -86,11 +100,11 @@ export const Articles = () => {
 
         if (/^\d+\.\s/.test(paragraph)) {
             return (
-                <Flex key={index} align="flex-start" gap={2}>
-                    <Text fontSize="md" fontWeight="bold" color="blue.600">
+                <Flex key={index} align='flex-start' gap={2}>
+                    <Text fontSize='md' fontWeight='bold' color='blue.600'>
                         {paragraph.split('.')[0]}.
                     </Text>
-                    <Text fontSize="md" color="gray.700">
+                    <Text fontSize='md' color='gray.700'>
                         {paragraph.substring(paragraph.indexOf(' ') + 1)}
                     </Text>
                 </Flex>
@@ -98,30 +112,27 @@ export const Articles = () => {
         }
 
         return (
-            <Text
-                key={index}
-                fontSize="md"
-                lineHeight="tall"
-                color="gray.700"
-            >
+            <Text key={index} fontSize='md' lineHeight='tall' color='gray.700'>
                 {paragraph}
             </Text>
         );
     };
 
     const SidebarContent = () => (
-        <VStack align="stretch" spacing={3}>
+        <VStack align='stretch' spacing={3}>
             <Button
                 onClick={() => handleArticleSelect(ARTICLES_DATA[0])}
-                justifyContent="flex-start"
+                justifyContent='flex-start'
                 leftIcon={<span>📚</span>}
-                variant={selectedArticle?.id === 0 ? "solid" : "ghost"}
-                colorScheme={selectedArticle?.id === 0 ? "blue" : "gray"}
-                bg={selectedArticle?.id === 0 ? activeButtonBg : "transparent"}
+                variant={selectedArticle?.id === 0 ? 'solid' : 'ghost'}
+                colorScheme={selectedArticle?.id === 0 ? 'blue' : 'gray'}
+                bg={selectedArticle?.id === 0 ? activeButtonBg : 'transparent'}
                 _hover={{ bg: buttonHoverBg }}
-                size="lg"
+                size='lg'
             >
-                <Text flex={1} textAlign="left">Предисловие</Text>
+                <Text flex={1} textAlign='left'>
+                    Предисловие
+                </Text>
             </Button>
 
             <Divider my={2} />
@@ -129,35 +140,28 @@ export const Articles = () => {
             {/* Кнопки по категориям */}
             {Object.entries(categories).map(([category, articles]) => (
                 <Box key={category}>
-                    <Text
-                        fontSize="sm"
-                        fontWeight="semibold"
-                        color="gray.500"
-                        mb={2}
-                        pl={2}
-                    >
+                    <Text fontSize='sm' fontWeight='semibold' color='gray.500' mb={2} pl={2}>
                         {getCategoryTitle(category)}
                     </Text>
-                    <VStack spacing={1} align="stretch">
+                    <VStack spacing={1} align='stretch'>
                         {articles.map((article) => (
                             <Button
                                 key={article.id}
                                 onClick={() => handleArticleSelect(article)}
-                                justifyContent="flex-start"
+                                justifyContent='flex-start'
                                 leftIcon={<span>{article.icon}</span>}
-                                variant={selectedArticle?.id === article.id ? "solid" : "ghost"}
-                                colorScheme={selectedArticle?.id === article.id ? "blue" : "gray"}
-                                bg={selectedArticle?.id === article.id ? activeButtonBg : "transparent"}
+                                variant={selectedArticle?.id === article.id ? 'solid' : 'ghost'}
+                                colorScheme={selectedArticle?.id === article.id ? 'blue' : 'gray'}
+                                bg={
+                                    selectedArticle?.id === article.id
+                                        ? activeButtonBg
+                                        : 'transparent'
+                                }
                                 _hover={{ bg: buttonHoverBg }}
-                                size="md"
+                                size='md'
                                 pl={6}
                             >
-                                <Text
-                                    flex={1}
-                                    textAlign="left"
-                                    fontSize="sm"
-                                    noOfLines={1}
-                                >
+                                <Text flex={1} textAlign='left' fontSize='sm' noOfLines={1}>
                                     {article.title}
                                 </Text>
                             </Button>
@@ -166,66 +170,52 @@ export const Articles = () => {
                 </Box>
             ))}
 
-            {/* Статистика внизу сайдбара */}
             <Box
                 mt={6}
                 p={3}
-                bg="blue.50"
-                borderRadius="md"
-                borderWidth="1px"
-                borderColor="blue.100"
+                bg='blue.50'
+                borderRadius='md'
+                borderWidth='1px'
+                borderColor='blue.100'
             >
-                <Text fontSize="sm" fontWeight="bold" color="blue.700" mb={1}>
-                    Всего статей:
-                </Text>
-                <Text fontSize="sm" color="gray.600">
-                    {ARTICLES_DATA.length}, основанных на исследованиях
+                <Text fontSize='sm' fontWeight='bold' color='blue.700' mb={1}>
+                    Всего статей: {ARTICLES_DATA.length}
                 </Text>
             </Box>
         </VStack>
     );
 
     return (
-        <Container maxW="7xl" py={8} pos='relative' zIndex={1} px={{ base: 1, xs: 4 }}>
-            <Box textAlign="center">
-                <Heading color="blue.700" mb={4}>
-                    📊 Научные исследования о ЗОЖ
+        <Container maxW='7xl' py={8} pos='relative' zIndex={1} px={{ base: 1, xs: 4 }}>
+            <Box textAlign='center'>
+                <Heading color='blue.700' mb={4}>
+                    📊 Исследования в области здоровья
                 </Heading>
-                <Text color="blue.600" maxW="3xl" mx="auto" fontWeight={600} fontSize={18} mb={16}>
+                <Text color='blue.600' maxW='3xl' mx='auto' fontWeight={600} fontSize={18} mb={16}>
                     Основано на последних научных данных и исследованиях
                 </Text>
             </Box>
-            <Flex
-                direction={{ base: "column", md: "row" }}
-                gap={6}
-                minH="600px"
-            >
+            <Flex direction={{ base: 'column', md: 'row' }} gap={6} minH='600px'>
                 {/* Кнопка открытия модального окна на мобильных */}
-                <Box display={{ base: "block", md: "none" }} mb={4}>
+                <Box display={{ base: 'block', md: 'none' }} mb={4} px={3}>
                     <Button
                         ref={btnRef}
                         onClick={onOpen}
                         leftIcon={<HamburgerIcon />}
-                        colorScheme="blue"
-                        variant="outline"
-                        w="full"
+                        colorScheme='blue'
+                        variant='outline'
+                        w='full'
                     >
                         Выбрать статью
                     </Button>
                 </Box>
 
                 {/* Модальное окно для мобильных */}
-                <Drawer
-                    isOpen={isOpen}
-                    placement="left"
-                    onClose={onClose}
-                >
+                <Drawer isOpen={isOpen} placement='left' onClose={onClose}>
                     <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
-                        <DrawerHeader>
-                            {/* Категории статей */}
-                        </DrawerHeader>
+                        <DrawerHeader>{/* Категории статей */}</DrawerHeader>
                         <DrawerBody p={4}>
                             <SidebarContent />
                         </DrawerBody>
@@ -234,15 +224,15 @@ export const Articles = () => {
 
                 {/* Сайдбар для десктопа */}
                 <Box
-                    w={{ base: "100%", md: "300px" }}
+                    w={{ base: '100%', md: '300px' }}
                     bg={sidebarBg}
-                    borderRadius="lg"
+                    borderRadius='lg'
                     p={4}
-                    boxShadow="sm"
-                    position="sticky"
-                    top="24px"
-                    alignSelf="flex-start"
-                    display={{ base: "none", md: "block" }}
+                    boxShadow='sm'
+                    position='sticky'
+                    top='24px'
+                    alignSelf='flex-start'
+                    display={{ base: 'none', md: 'block' }}
                 >
                     <SidebarContent />
                 </Box>
@@ -251,50 +241,60 @@ export const Articles = () => {
                 <Box
                     flex={1}
                     bg={articleBg}
-                    borderRadius="lg"
+                    borderRadius='lg'
                     p={{ base: 4, md: 6 }}
-                    boxShadow="sm"
-                    overflow="auto"
+                    boxShadow='sm'
+                    overflow='auto'
                     ref={articleRef}
                 >
                     {selectedArticle ? (
-                        <VStack align="stretch" spacing={6}>
+                        <VStack align='stretch' spacing={6}>
                             {/* Заголовок статьи */}
                             <Box>
-                                <Flex align="center" gap={3} mb={2}>
-                                    <Text fontSize="4xl">{selectedArticle.icon}</Text>
+                                <Flex align='center' gap={3} mb={2}>
+                                    <Text fontSize='4xl'>{selectedArticle.icon}</Text>
                                     <Box flex={1}>
-                                        <Flex align="center" gap={2} mb={1}>
+                                        <Flex align='center' gap={2} mb={1}>
                                             <Heading
-                                                fontSize={{ base: "xl", md: "2xl" }}
-                                                color="gray.800"
+                                                fontSize={{ base: 'xl', md: '2xl' }}
+                                                color='gray.800'
                                             >
                                                 {selectedArticle.title}
                                             </Heading>
                                         </Flex>
-                                        <Flex align="center" gap={4} flexWrap="wrap">
+                                        <Flex align='center' gap={4} flexWrap='wrap'>
                                             {selectedArticle.source && (
-                                                <Text fontSize="sm" color="gray.500">
-                                                    Источник: {selectedArticle.sourceLink ? (
+                                                <Text fontSize='sm' color='gray.500'>
+                                                    Источник:{' '}
+                                                    {selectedArticle.sourceLink ? (
                                                         <Link
                                                             to={selectedArticle.sourceLink}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
+                                                            target='_blank'
+                                                            rel='noopener noreferrer'
                                                             style={{
                                                                 color: 'inherit',
                                                                 textDecoration: 'underline',
-                                                                textDecorationColor: 'rgba(0, 0, 0, 0.2)'
+                                                                textDecorationColor:
+                                                                    'rgba(0, 0, 0, 0.2)',
                                                             }}
-                                                            onMouseEnter={(e) => e.currentTarget.style.textDecorationColor = 'blue'}
-                                                            onMouseLeave={(e) => e.currentTarget.style.textDecorationColor = 'rgba(0, 0, 0, 0.2)'}
+                                                            onMouseEnter={(e) =>
+                                                                (e.currentTarget.style.textDecorationColor =
+                                                                    'blue')
+                                                            }
+                                                            onMouseLeave={(e) =>
+                                                                (e.currentTarget.style.textDecorationColor =
+                                                                    'rgba(0, 0, 0, 0.2)')
+                                                            }
                                                         >
                                                             {selectedArticle.source}
                                                         </Link>
-                                                    ) : selectedArticle.source}
+                                                    ) : (
+                                                        selectedArticle.source
+                                                    )}
                                                 </Text>
                                             )}
                                             {selectedArticle.country && (
-                                                <Badge colorScheme="green" variant="subtle">
+                                                <Badge colorScheme='green' variant='subtle'>
                                                     {selectedArticle.country}
                                                 </Badge>
                                             )}
@@ -305,9 +305,9 @@ export const Articles = () => {
                             </Box>
 
                             {/* Содержание статьи */}
-                            <VStack align="stretch" spacing={4}>
+                            <VStack align='stretch' spacing={4}>
                                 {selectedArticle.article.map((paragraph, index) =>
-                                    renderParagraph(paragraph, index)
+                                    renderParagraph(paragraph, index),
                                 )}
                             </VStack>
 
@@ -316,15 +316,16 @@ export const Articles = () => {
                                 <Box
                                     mt={6}
                                     p={4}
-                                    bg="blue.50"
-                                    borderRadius="md"
-                                    borderLeftWidth="4px"
-                                    borderLeftColor="blue.400"
+                                    bg='blue.50'
+                                    borderRadius='md'
+                                    borderLeftWidth='4px'
+                                    borderLeftColor='blue.400'
                                 >
-                                    <Text fontSize="sm" fontStyle="italic" color="gray.600">
-                                        💡 Все данные в этой статье основаны на клинических исследованиях
-                                        и могут быть полезны для понимания принципов здорового образа жизни.
-                                        Для индивидуальных рекомендаций обратитесь к специалисту.
+                                    <Text fontSize='sm' fontStyle='italic' color='gray.600'>
+                                        💡 Все данные в этой статье основаны на клинических
+                                        исследованиях и могут быть полезны для понимания принципов
+                                        здорового образа жизни. Для индивидуальных рекомендаций
+                                        обратитесь к специалисту.
                                     </Text>
                                 </Box>
                             )}
@@ -336,18 +337,12 @@ export const Articles = () => {
             </Flex>
 
             {/* Футер с информацией */}
-            <Box
-                mt={8}
-                p={4}
-                bg="gray.50"
-                borderRadius="lg"
-                textAlign="center"
-            >
-                <Text fontSize="sm" color="gray.600">
+            <Box mt={8} p={4} bg='gray.50' borderRadius='lg' textAlign='center'>
+                <Text fontSize='sm' color='gray.600'>
                     🔬 Каждая статья имеет ссылки на первоисточник
                     {/* Последнее обновление: {new Date().getFullYear()} год */}
                 </Text>
-                <Text fontSize="xs" color="gray.500" mt={2}>
+                <Text fontSize='xs' color='gray.500' mt={2}>
                     Информация носит ознакомительный характер
                 </Text>
             </Box>

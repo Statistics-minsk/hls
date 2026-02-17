@@ -18,13 +18,17 @@ export const Header = () => {
             bg={isMainPage ? 'blue.700' : 'white'}
             borderBottom={!isMainPage ? '1px solid' : 'none'}
             borderColor='gray.200'
-            boxShadow={!isMainPage ? 'sm' : '0 0 3px rgba(82, 121, 251, 0.6), 0 0 15px rgba(82, 121, 251, 0.5)'}
+            boxShadow={
+                !isMainPage
+                    ? 'sm'
+                    : '0 0 3px rgba(82, 121, 251, 0.6), 0 0 15px rgba(82, 121, 251, 0.5)'
+            }
         >
             <Flex
                 maxW='7xl'
                 mx='auto'
                 width='100%'
-                px={{ base: 1, '2xs': 4 }}
+                px={{ base: 2, '2xs': 4 }}
                 py={2}
                 align='center'
                 justify='space-between'
@@ -39,9 +43,9 @@ export const Header = () => {
                     size='lg'
                     fontSize='24px'
                     color={isMainPage ? 'white' : 'blue.700'}
-                    _hover={{ 
+                    _hover={{
                         transform: 'scale(1.1)',
-                        bgColor: 'transparent'
+                        bgColor: 'transparent',
                     }}
                     transition='all 0.2s'
                     isRound
