@@ -1,12 +1,7 @@
-import { Box, Flex, Image, Show, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Show, Text } from '@chakra-ui/react';
 
 export const Intro = () => (
-    <Box
-        position='relative'
-        width='100%'
-        minH='300px'
-        overflow='hidden'
-    >
+    <Box position='relative' width='100%' minH='300px' overflow='hidden'>
         <Image
             src='img/stat.webp'
             position='absolute'
@@ -39,8 +34,17 @@ export const Intro = () => (
                 lineHeight='148%'
                 textTransform='uppercase'
             >
-                Здоровый дух <Show below='xs'><br /></Show>в здоровом теле: <br />белорусские статистики<Show below='xs'><br /></Show> выбирают ЗОЖ
+                В здоровом теле –{' '}
+                <Show below='xs'>
+                    <br />
+                </Show>
+                здоровый дух: <br />
+                белорусские статистики
+                <Show below='xs'>
+                    <br />
+                </Show>{' '}
+                выбирают ЗОЖ
             </Text>
         </Flex>
     </Box>
-)
+);
