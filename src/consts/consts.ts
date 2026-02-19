@@ -578,7 +578,7 @@ export const TEST_DATA = [
         desc: 'Посмотрите видео с цветными кругами. В каждом круге едва заметная цифра. Если вы не видите цифру в круге, вероятно, Вам чего-то не хватает.',
         type: 'video',
         category: 'health',
-        videoUrl: '/video/76.mp4',
+        videoUrl: 'video/76.mp4',
     },
     {
         id: 0,
