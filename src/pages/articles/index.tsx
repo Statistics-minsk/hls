@@ -1,4 +1,4 @@
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { ArrowUpIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
     Badge,
     Box,
@@ -18,7 +18,7 @@ import {
     useDisclosure,
     VStack,
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 
 import { Article, ARTICLES_DATA } from './articles-data';
@@ -33,6 +33,23 @@ export const Articles = () => {
     const articleBg = useColorModeValue('white', 'gray.900');
     const buttonHoverBg = useColorModeValue('blue.50', 'blue.900');
     const activeButtonBg = useColorModeValue('blue.100', 'blue.800');
+    const [showScrollButton, setShowScrollButton] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 300) {
+                setShowScrollButton(true);
+            } else {
+                setShowScrollButton(false);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     const categories = ARTICLES_DATA.filter((article) => article.id !== 0).reduce(
         (acc: Record<string, Article[]>, article) => {
@@ -335,6 +352,26 @@ export const Articles = () => {
                     )}
                 </Box>
             </Flex>
+
+            {showScrollButton && (
+                <Button
+                    onClick={scrollToTop}
+                    position='fixed'
+                    bottom='100px'
+                    right='20px'
+                    borderRadius='full'
+                    boxShadow='lg'
+                    bg='whiteAlpha.900'
+                    _hover={{ bg: '#9aadeb', opacity: 1 }}
+                    opacity={0.8}
+                    zIndex='100'
+                    size='lg'
+                    aria-label='Наверх'
+                    bgColor='#bfcdf9'
+                >
+                    <ArrowUpIcon boxSize={6} />
+                </Button>
+            )}
 
             {/* Футер с информацией */}
             <Box mt={8} p={4} bg='gray.50' borderRadius='lg' textAlign='center'>

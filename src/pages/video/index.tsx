@@ -270,24 +270,6 @@ export const VideoPage = () => {
                                                 ▶ Играет
                                             </Box>
                                         )}
-
-                                        {/* Бейдж типа */}
-                                        <Box
-                                            position='absolute'
-                                            top='2'
-                                            right='2'
-                                            bg='green.500'
-                                            color='white'
-                                            px={2}
-                                            py={1}
-                                            borderRadius='md'
-                                            fontSize='xs'
-                                            fontWeight='bold'
-                                            zIndex={1}
-                                            opacity={0.9}
-                                        >
-                                            {TYPE_LABELS[video.type] || video.type}
-                                        </Box>
                                     </Box>
                                 </AspectRatio>
                                 <CardBody color='blue.700'>

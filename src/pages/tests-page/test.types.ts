@@ -2,8 +2,8 @@ export interface TestAnswer {
     id: number;
     title: string;
     value: number;
-    imageSrc?: string;  
-    resultText?: string; 
+    imageSrc?: string;
+    resultText?: string;
 }
 
 export interface TestQuestion {
@@ -18,7 +18,7 @@ export interface TestResult {
     max: number;
     title: string;
     desc: string;
-    imageSrc?: string;  // Добавляем опциональное поле для изображений
+    imageSrc?: string;
 }
 
 export interface ProjectiveImage {
@@ -38,8 +38,9 @@ export interface TestData {
     title: string;
     desc: string;
     category: string;
-    type?: 'standard' | 'image-grid' | 'single-image-options' | string;
+    type?: 'standard' | 'image-grid' | 'single-image-options' | 'video' | string;
     questions?: TestQuestion[];
     results?: TestResult[];
-    src?: string; 
+    src?: string;
+    videoUrl?: string;
 }
